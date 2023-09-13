@@ -69,7 +69,7 @@ class Hublang extends CI_Controller
             [
                 'field' => 'no_pelanggan',
                 'label' => 'Nomor pelanggan',
-                'rules' => 'required|max_length[10]|min_length[10]|is_unique[pelanggan.no_pelanggan]',
+                'rules' => 'required|max_length[11]|min_length[10]|is_unique[pelanggan.no_pelanggan]',
             ],
             [
                 'field' => 'no_plat',
@@ -137,9 +137,14 @@ class Hublang extends CI_Controller
                 'rules' => 'required',
             ],
             [
+                'field' => 'ket_spl',
+                'label' => 'Keterangan SPL',
+                'rules' => 'required',
+            ],
+            [
                 'field' => 'status',
                 'label' => 'Status',
-                'rules' => 'required',
+                'rules' => '',
             ],
             [
                 'field' => 'no_rek',
@@ -161,7 +166,7 @@ class Hublang extends CI_Controller
                 'districts2' => $kecamatan,
                 'pelayanan' => $this->Pelanggan_m->get_pelayanan()->result(),
                 'jenis' => $this->Pelanggan_m->get_jenis()->result(),
-                'status' => $this->Pelanggan_m->get_status()->result(),
+                'ket_spl' => $this->Pelanggan_m->get_ket_spl()->result(),
             ];
 
             $this->load->view('component/header', $data);
@@ -217,9 +222,10 @@ class Hublang extends CI_Controller
             'kec_pasang' => $kec_pasang,
             'kel_pasang' => $kel_pasang,
             'no_spl' => htmlspecialchars($this->input->post('no_spl', true)),
+            'ket_spl' => htmlspecialchars($this->input->post('ket_spl', true)),
             'jenis_id' => htmlspecialchars($this->input->post('jenis_langganan')),
             'jml_jiwa' => htmlspecialchars($this->input->post('jml_jiwa', true)),
-            'status_id' => htmlspecialchars($this->input->post('status', true)),
+            'status' => htmlspecialchars($this->input->post('status', true)),
             'luas_tanah' => htmlspecialchars($this->input->post('luas_tanah', true)),
             'daya_listrik' => htmlspecialchars($this->input->post('daya_listrik', true)),
             'no_rek' => htmlspecialchars($this->input->post('no_rek', true)),
@@ -240,19 +246,20 @@ class Hublang extends CI_Controller
         $data['title'] = "Data";
         $data['wilayah'] = $this->Pelanggan_m->get_wilayah()->result();
 
-        
+
         // $wilayah = $this->input->post('wilayah');
         $wilayah = $this->input->post('wilayah');
 
-        
-        if(empty($wilayah)){
+
+        if (empty($wilayah)) {
             $data['pelanggan'] = $this->Pelanggan_m->get_data();
         } else {
             $data['pelanggan'] = $this->Pelanggan_m->get_data_by_wilayah($wilayah);
         }
-        
+
         // $data['pelanggan'] = $pel;
-        // var_dump($pel); die();
+        // var_dump($data['pelanggan']);
+        // die();
 
 
         $this->load->view('component/header', $data);
@@ -279,7 +286,6 @@ class Hublang extends CI_Controller
         $this->load->view('component/sidebar');
         $this->load->view('pages/hublang/show', $data);
         $this->load->view('component/footer');
-    
     }
 
     public function get_regencies()

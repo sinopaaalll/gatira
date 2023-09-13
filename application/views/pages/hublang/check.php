@@ -39,7 +39,7 @@
                                                         <div class="col s12 m12 l12">
                                                             <div class="input-field">
                                                                 <i class="material-icons prefix">assignment_ind</i>
-                                                                <input id="no_pelanggan" placeholder="Contoh: 0101001015" type="text" maxlength="10" name="no_pelanggan" class="<?= form_error('no_pelanggan')  ? 'validate invalid' : ''; ?>" value="<?= set_value('no_pelanggan') ?>" autofocus>
+                                                                <input id="no_pelanggan" placeholder="Contoh: 0101001015" type="text" maxlength="11" name="no_pelanggan" class="<?= form_error('no_pelanggan')  ? 'validate invalid' : ''; ?>" value="<?= set_value('no_pelanggan') ?>" autofocus>
                                                                 <label for="no_pelanggan">Nomor Pelanggan</label>
                                                                 <?= form_error('no_pelanggan', '<span class="helper-text red-text">', '</span>'); ?>
                                                             </div>
@@ -99,7 +99,7 @@
 
     <?php
     if ($this->session->flashdata('success')) { ?>
-       <script>
+        <script>
             var successMessage = <?php echo json_encode($this->session->flashdata('success')); ?>;
             $(document).ready(function() {
                 swal("Good Job!", successMessage, "success");
