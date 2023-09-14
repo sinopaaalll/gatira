@@ -38,8 +38,8 @@
                                                             <th>#</th>
                                                             <th>NIK</th>
                                                             <th>Nama</th>
-                                                            <th>Email</th>
                                                             <th>Role</th>
+                                                            <th>Foto</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -60,9 +60,9 @@
                                                                         <a href="<?= base_url('user/aktivasi/') . $row->id; ?>" class="waves-effect waves-light btn-small green"><i class="material-icons left">check</i> Aktivasi</a>
                                                                     <?php } else { ?>
                                                                         <a href="<?= base_url('user/detail/') . $row->id; ?>" class="waves-effect waves-light btn-small blue darken-4"><i class="material-icons" title="lihat">visibility</i></a>
-                                                                        <a href="<?= base_url('user/detail/') . $row->id; ?>" class="waves-effect waves-light btn-small yellow darken-4" title="edit"><i class="material-icons">edit</i></a>
+                                                                        <a href="<?= base_url('user/update/') . $row->id; ?>" class="waves-effect waves-light btn-small yellow darken-4" title="edit"><i class="material-icons">edit</i></a>
                                                                     <?php } ?>
-                                                                    <a href="<?= base_url('user/delete/') . $row->id; ?>" class="waves-effect waves-light btn-small red " title="hapus"><i class="material-icons">delete</i></a>
+                                                                    <a href="<?= base_url('user/delete/') . $row->id; ?>" class="waves-effect waves-light btn-small red btn-hapus " title="hapus"><i class="material-icons">delete</i></a>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>
@@ -70,6 +70,10 @@
                                                 </table>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="card-action">
+                                        <!-- Modal Trigger -->
+                                        <a href="<?= base_url('user/create') ?>" class="btn blue darken-4"><i class="material-icons left">add</i>Tambah data</a>
                                     </div>
                                 </div>
 
@@ -86,6 +90,32 @@
 
     <script src="<?= base_url('') ?>assets/vendors/sweetalert/sweetalert.min.js"></script>
     <script src="<?= base_url('') ?>assets/js/vendors.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Menghentikan tautan dari navigasi langsung
+            $('.btn-hapus').on('click', function(event) {
+                event.preventDefault();
+                var href = $(this).attr('href');
+
+                // Menampilkan dialog konfirmasi SweetAlert
+                swal({
+                    title: "Yakin, data akan dihapus?",
+                    icon: 'warning',
+                    buttons: {
+                        cancel: true,
+                        delete: 'Yes, Delete It'
+                    }
+                }).then((isConfirmed) => {
+                    if (isConfirmed) {
+                        // Jika pengguna mengkonfirmasi logout, arahkan ke URL logout
+                        window.location.href = href;
+                    }
+                });
+            });
+
+        });
+    </script>
 
     <?php
     if ($this->session->flashdata('success')) { ?>

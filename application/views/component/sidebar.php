@@ -38,7 +38,7 @@
     <li class="<?= $title === 'Entry' ? 'active' : '' ?> bold"><a class="waves-effect waves-cyan <?= $title === 'Entry' ? 'active' : '' ?> " href="<?= base_url('hublang') ?>">
         <i class="material-icons">border_color</i><span class="menu-title" data-i18n="Data Tables">Entry Data</span></a>
     </li>
-    <li class="<?= $this->uri->segment(2) === 'data' || $this->uri->segment(2) === 'detail' ? "active" : ''; ?> bold"><a class="waves-effect waves-cyan <?= $this->uri->segment(2) == 'data' || $this->uri->segment(2) === 'detail' ? 'active' : ''; ?> " href="<?= base_url('hublang/data') ?>"><i class="material-icons">grid_on</i><span class="menu-title" data-i18n="Data Tables">Data Pelanggan</span></a>
+    <li class="<?= $title === 'Data' ? 'active' : ''; ?> bold"><a class="waves-effect waves-cyan <?= $title === 'Data' ? 'active' : ''; ?> " href="<?= base_url('hublang/data') ?>"><i class="material-icons">grid_on</i><span class="menu-title" data-i18n="Data Tables">Data Pelanggan</span></a>
     </li>
 
 

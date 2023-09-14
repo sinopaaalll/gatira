@@ -6,6 +6,21 @@ class User_m extends CI_Model
     {
         $this->db->select('user.*, user_role.nama as role');
         $this->db->from('user');
+        // $this->db->where('is_active', 1);
+        $this->db->join('user_role', 'user.role_id = user_role.id');
+        return $this->db->get();
+    }
+
+    public function get_role()
+    {
+        return $this->db->get('user_role')->result();
+    }
+
+    public function getUserID($id)
+    {
+        $this->db->select('user.*, user_role.nama as role');
+        $this->db->from('user');
+        $this->db->where('user.id', $id);
         $this->db->join('user_role', 'user.role_id = user_role.id');
         return $this->db->get();
     }

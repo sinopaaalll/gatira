@@ -18,7 +18,7 @@ class Hublang extends CI_Controller
     public function index()
     {
         $this->session->unset_userdata('no_pelanggan');
-        $this->form_validation->set_rules('no_pelanggan', 'Nomor Pelanggan', 'required|max_length[10]|min_length[10]');
+        $this->form_validation->set_rules('no_pelanggan', 'Nomor Pelanggan', 'required|max_length[11]|min_length[10]');
 
         if ($this->form_validation->run() == false) {
 
