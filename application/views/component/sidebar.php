@@ -43,7 +43,29 @@
 
 
     <?php if ($this->session->userdata('role_id') == 1) { ?>
-      <li class="navigation-header"><a class="navigation-header-text">Pengguna</a><i class="navigation-header-icon material-icons">more_horiz</i>
+      <li class="navigation-header"><a class="navigation-header-text">Pages</a><i class="navigation-header-icon material-icons">more_horiz</i>
+      </li>
+
+      <li class="bold <?= $title === 'Cabang' || $title === 'Wilayah' || $title === 'Jalan' ? 'active' : '' ?>"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">map</i><span class="menu-title" data-i18n="Forms">Pelayanan</span></a>
+        <div class="collapsible-body">
+          <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+            <li class="<?= $title === 'Cabang' ? 'active' : '' ?>">
+              <a href="<?= base_url('cabang'); ?>" class="<?= $title === 'Cabang' ? 'active' : '' ?>">
+                <i class="material-icons">radio_button_unchecked</i><span data-i18n="Form Elements">Cabang</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?= base_url('wilayah'); ?>" class="<?= $title === 'Wilayah' ? 'active' : '' ?>">
+                <i class="material-icons">radio_button_unchecked</i><span data-i18n="Form Elements">Wilayah</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?= base_url('jalan'); ?>" class="<?= $title === 'Jalan' ? 'active' : '' ?>">
+                <i class="material-icons">radio_button_unchecked</i><span data-i18n="Form Elements">Jalan</span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </li>
 
       <li class="bold <?= $title === 'User' ? 'active' : '' ?>"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">chrome_reader_mode</i><span class="menu-title" data-i18n="Forms">Akun</span></a>
@@ -62,7 +84,10 @@
           </ul>
         </div>
       </li>
+
+
     <?php } ?>
+
 
 
     <!-- <li class="bold"><a class="waves-effect waves-cyan " href="https://pixinvent.com/materialize-material-design-admin-template/documentation/index.html" target="_blank"><i class="material-icons">import_contacts</i><span class="menu-title" data-i18n="Documentation">Documentation</span></a>

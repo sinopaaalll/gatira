@@ -15,6 +15,7 @@
   <!-- BEGIN: VENDOR CSS-->
   <link rel="stylesheet" type="text/css" href="<?= base_url('') ?>assets/vendors/vendors.min.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('') ?>assets/vendors/sweetalert/sweetalert.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('') ?>assets/vendors/materialize-stepper/materialize-stepper.min.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('') ?>assets/vendors/flag-icon/css/flag-icon.min.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('') ?>assets/vendors/data-tables/css/jquery.dataTables.min.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('') ?>assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">

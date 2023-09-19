@@ -341,4 +341,53 @@ class Hublang extends CI_Controller
         $data = $this->Pelanggan_m->get_jalan($id)->result();
         echo json_encode($data);
     }
+
+
+    public function multiform()
+    {
+        $rules = array(
+            [
+                'field' => 'no_pelanggan',
+                'label' => 'Nomor pelanggan',
+                'rules' => 'required|max_length[11]|min_length[10]|is_unique[pelanggan.no_pelanggan]',
+            ],
+            [
+                'field' => 'no_plat',
+                'label' => 'Nomor plat',
+                'rules' => 'required|is_unique[pelanggan.no_plat]',
+            ],
+            [
+                'field' => 'nama_pelanggan',
+                'label' => 'Nama pelanggan',
+                'rules' => 'required',
+            ],
+        );
+
+        $this->form_validation->set_rules($rules);
+
+        if ($this->form_validation->run() == false) {
+
+            $data = [
+                'title' => "Entry",
+                'provinces' => $this->Kota_m->get_provinces()->result(),
+                'districts1' => $this->Kota_m->get_districts1()->result(),
+            ];
+
+            $this->load->view('component/header', $data);
+            $this->load->view('component/sidebar');
+            $this->load->view('pages/hublang/multiform', $data);
+            $this->load->view('component/footer');
+        } else {
+            $no_pelanggan = $this->input->post('no_pelanggan');
+            $no_plat = $this->input->post('no_plat');
+
+            $data =  [
+                'no_pelanggan' => $no_pelanggan,
+                'no_plat' => $no_plat
+            ];
+
+            var_dump($data);
+            die();
+        }
+    }
 }
