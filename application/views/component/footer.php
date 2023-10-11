@@ -1,11 +1,11 @@
     <!-- BEGIN: Footer-->
     <footer class="page-footer footer footer-static footer-light navbar-border navbar-shadow">
-      <div class="footer-copyright">
-        <div class="container"><span>&copy; 2020 <a href="http://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank">PIXINVENT</a> All rights reserved.</span><span class="right hide-on-small-only">Design and Developed by <a href="https://pixinvent.com/">PIXINVENT</a></span></div>
-      </div>
+        <div class="footer-copyright">
+            <div class="container"><span>&copy; 2020 <a href="http://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank">PIXINVENT</a> All rights reserved.</span><span class="right hide-on-small-only">Design and Developed by <a href="https://pixinvent.com/">PIXINVENT</a></span></div>
+        </div>
     </footer>
 
-    
+
     <script src="<?= base_url('') ?>assets/vendors/sweetalert/sweetalert.min.js"></script>
 
     <!-- END: Footer-->
@@ -26,6 +26,7 @@
     <!-- BEGIN PAGE LEVEL JS-->
     <script src="<?= base_url('') ?>assets/js/scripts/data-tables.min.js"></script>
     <!-- END PAGE LEVEL JS-->
+
 
     <script>
         $(document).ready(function() {

@@ -9,16 +9,12 @@ class Cabang extends CI_Controller
         parent::__construct();
 
         // is login
-        if (!$this->session->userdata('nik')) {
-            redirect('auth/login');
-        } else if ($this->session->userdata('role_id') != 1) {
-            redirect('404_override');
-        }
+        is_logged_in("Cabang Management");
     }
 
     public function index()
     {
-        $data['title'] = "Cabang";
+        $data['title'] = "Cabang Management";
         $data['cabang'] = $this->db->get('pelayanan')->result();
 
         $this->load->view('component/header', $data);
@@ -36,7 +32,7 @@ class Cabang extends CI_Controller
         $this->form_validation->set_rules('nama', 'Nama Cabang', 'required');
 
         if ($this->form_validation->run() == false) {
-            $data['title'] = "Cabang";
+            $data['title'] = "Cabang Management";
 
             $this->load->view('component/header', $data);
             $this->load->view('component/sidebar');
@@ -77,7 +73,7 @@ class Cabang extends CI_Controller
 
     public function edit($kode)
     {
-        $data['title'] = "Cabang";
+        $data['title'] = "Cabang Management";
         $data['cabang'] = $this->db->get_where('pelayanan', ['kode_pelayanan' => $kode])->row_array();
 
         $this->load->view('component/header', $data);

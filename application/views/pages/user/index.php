@@ -1,24 +1,6 @@
     <!-- BEGIN: Page Main-->
     <div id="main">
         <div class="row">
-            <div id="breadcrumbs-wrapper" data-image="<?= base_url('') ?>assets/images/gallery/breadcrumb-bg.jpg">
-                <!-- Search for small screen-->
-                <div class="container">
-                    <div class="row">
-                        <div class="col s12 m6 l6">
-                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Data Pengguna</span></h5>
-                        </div>
-                        <div class="col s12 m6 l6 right-align-md">
-                            <ol class="breadcrumbs mb-0">
-                                <li class="breadcrumb-item"><a href="#">Home</a>
-                                </li>
-                                <li class="breadcrumb-item active">Data Pengguna
-                                </li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div class="col s12">
                 <div class="container">
@@ -32,7 +14,7 @@
                                         <h4 class="card-title">Data Pengguna</h4>
                                         <div class="row">
                                             <div class="col s12">
-                                                <table id="page-length-option" class="display">
+                                                <table id="page-length-option" class="striped">
                                                     <thead>
                                                         <tr>
                                                             <th>#</th>
@@ -57,12 +39,12 @@
                                                                 </td>
                                                                 <td>
                                                                     <?php if ($row->is_active == 0) { ?>
-                                                                        <a href="<?= base_url('user/aktivasi/') . $row->id; ?>" class="waves-effect waves-light btn-small green"><i class="material-icons left">check</i> Aktivasi</a>
+                                                                        <a href="<?= base_url('user/aktivasi/') . $row->id; ?>" class=" waves-effect waves-light btn-small green"><i class="material-icons left">check</i> Aktivasi</a>
                                                                     <?php } else { ?>
-                                                                        <a href="<?= base_url('user/detail/') . $row->id; ?>" class="waves-effect waves-light btn-small blue darken-4"><i class="material-icons" title="lihat">visibility</i></a>
-                                                                        <a href="<?= base_url('user/update/') . $row->id; ?>" class="waves-effect waves-light btn-small yellow darken-4" title="edit"><i class="material-icons">edit</i></a>
+                                                                        <a href="<?= base_url('user/detail/') . $row->id; ?>" class="btn-floating waves-effect waves-light btn-small blue darken-4"><i class="material-icons" title="lihat">visibility</i></a>
+                                                                        <a href="<?= base_url('user/update/') . $row->id; ?>" class="btn-floating waves-effect waves-light btn-small yellow darken-4" title="edit"><i class="material-icons">edit</i></a>
                                                                     <?php } ?>
-                                                                    <a href="<?= base_url('user/delete/') . $row->id; ?>" class="waves-effect waves-light btn-small red btn-hapus " title="hapus"><i class="material-icons">delete</i></a>
+                                                                    <a href="<?= base_url('user/delete/') . $row->id; ?>" class=" btn-floating waves-effect waves-light btn-small red btn-hapus " title="hapus"><i class="material-icons">delete</i></a>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>

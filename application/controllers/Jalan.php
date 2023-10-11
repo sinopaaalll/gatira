@@ -9,16 +9,12 @@ class Jalan extends CI_Controller
         parent::__construct();
 
         // is login
-        if (!$this->session->userdata('nik')) {
-            redirect('auth/login');
-        } else if ($this->session->userdata('role_id') != 1) {
-            redirect('404_override');
-        }
+        is_logged_in("Jalan Management");
     }
 
     public function index()
     {
-        $data['title'] = "Jalan";
+        $data['title'] = "Jalan Management";
 
         $this->db->select('jalan.*, wilayah.nama_wilayah as wilayah, pelayanan.nama_pelayanan as cabang');
         $this->db->from('jalan');
@@ -44,7 +40,7 @@ class Jalan extends CI_Controller
         $this->form_validation->set_rules('nama', 'Nama jalan', 'required');
         if ($this->form_validation->run() == false) {
 
-            $data['title'] = "Jalan";
+            $data['title'] = "Jalan Management";
             $data['cabang'] = $this->db->get('pelayanan')->result();
 
             $this->load->view('component/header', $data);
@@ -102,7 +98,7 @@ class Jalan extends CI_Controller
 
     public function edit($kode)
     {
-        $data['title'] = "Jalan";
+        $data['title'] = "Jalan Management";
         $data['cabang'] = $this->db->get('pelayanan')->result();
         $data['jalan'] = $this->db->get_where('jalan', ['kode_jalan' => $kode])->row_array();
 

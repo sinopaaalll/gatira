@@ -1,24 +1,6 @@
     <!-- BEGIN: Page Main-->
     <div id="main">
         <div class="row">
-            <div id="breadcrumbs-wrapper" data-image="<?= base_url('') ?>assets/images/gallery/breadcrumb-bg.jpg">
-                <!-- Search for small screen-->
-                <div class="container">
-                    <div class="row">
-                        <div class="col s12 m6 l6">
-                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Entry Data</span></h5>
-                        </div>
-                        <div class="col s12 m6 l6 right-align-md">
-                            <ol class="breadcrumbs mb-0">
-                                <li class="breadcrumb-item"><a href="#">Home</a>
-                                </li>
-                                <li class="breadcrumb-item active">Entry Data
-                                </li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div class="col s12">
                 <div class="container">
@@ -28,7 +10,7 @@
                             <div class="col s12 offset-m2 m8 offset-l3 l6">
 
 
-                                <form action="<?= base_url('hublang') ?>" method="post">
+                                <form action="<?= base_url('hublang') ?>" method="post" autocomplete="off">
                                     <div class="card">
                                         <div class="card-content">
                                             <!-- <h4 class="card-title">Data Pelanggan</h4> -->
@@ -40,7 +22,7 @@
                                                             <div class="input-field">
                                                                 <i class="material-icons prefix">assignment_ind</i>
                                                                 <input id="no_pelanggan" placeholder="Contoh: 0101001015" type="text" maxlength="11" name="no_pelanggan" class="<?= form_error('no_pelanggan')  ? 'validate invalid' : ''; ?>" value="<?= set_value('no_pelanggan') ?>" autofocus>
-                                                                <label for="no_pelanggan">Nomor Pelanggan</label>
+                                                                <label for="no_pelanggan">Cek Nomor Pelanggan</label>
                                                                 <?= form_error('no_pelanggan', '<span class="helper-text red-text">', '</span>'); ?>
                                                             </div>
                                                             <input type="hidden" id="pelayanan" name="pelayanan" value="">
@@ -84,8 +66,8 @@
             $('#no_pelanggan').on('input', function() {
                 var noPelanggan = $('#no_pelanggan').val();
                 var pelayanan = noPelanggan.substring(0, 2);
-                var wilayah = noPelanggan.substring(2, 4);
-                var jalan = noPelanggan.substring(4, 7);
+                var wilayah = noPelanggan.substring(0, 4);
+                var jalan = noPelanggan.substring(0, 7);
                 var no_urut = noPelanggan.substring(7, 10);
 
                 $('#pelayanan').val(pelayanan);

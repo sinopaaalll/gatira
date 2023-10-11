@@ -1,5 +1,5 @@
 <!-- BEGIN: SideNav-->
-<aside class="sidenav-main nav-expanded nav-lock  nav-collapsible sidenav-dark sidenav-active-rounded">
+<aside class="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-dark sidenav-active-rounded">
   <div class="brand-sidebar">
     <h1 class="logo-wrapper">
       <a class="brand-logo darken-1" href="#">
@@ -15,78 +15,55 @@
 
   <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="accordion">
 
-    <!-- <li class="bold"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">settings_input_svideo</i><span class="menu-title" data-i18n="Dashboard">Dashboard</span><span class="badge badge pill orange float-right mr-10">3</span></a>
-          <div class="collapsible-body">
-            <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-              <li><a href="dashboard-modern.html"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Modern</span></a>
-              </li>
-              <li><a href="dashboard-ecommerce.html"><i class="material-icons">radio_button_unchecked</i><span data-i18n="eCommerce">eCommerce</span></a>
-              </li>
-              <li><a href="dashboard-analytics.html"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Analytics">Analytics</span></a>
-              </li>
-            </ul>
-          </div>
-        </li> -->
+    <?php
+    $role_id = $this->session->userdata('role_id');
 
-    <li class="<?= $title === 'Dashboard' ? 'active' : ''; ?> bold"><a class="waves-effect waves-cyan  <?= $title === 'Dashboard' ? 'active' : ''; ?>" href="<?= base_url('dashboard') ?>">
-        <i class="material-icons">settings_input_svideo</i><span class="menu-title">Dashboard</span></a>
-    </li>
+    $queryMenu = "SELECT `user_menu`.`id_menu`, `menu`
+                    FROM `user_menu` JOIN `user_access_menu`
+                      ON `user_menu`.`id_menu` = `user_access_menu`.`menu_id`
+                   WHERE `user_access_menu`.`role_id` = $role_id
+                ORDER BY `user_access_menu`.`menu_id` ASC
+                ";
+    $menu = $this->db->query($queryMenu)->result_array();
+    $i = 0;
+    // echo 'role id'.$role_id; die();
+    // var_dump($menu); die();
+    ?>
 
-    <li class="navigation-header"><a class="navigation-header-text">Hubungan dan layanan</a><i class="navigation-header-icon material-icons">more_horiz</i>
-    </li>
+    <?php foreach ($menu as $m) : ?>
 
-    <li class="<?= $title === 'Entry' ? 'active' : '' ?> bold"><a class="waves-effect waves-cyan <?= $title === 'Entry' ? 'active' : '' ?> " href="<?= base_url('hublang') ?>">
-        <i class="material-icons">border_color</i><span class="menu-title" data-i18n="Data Tables">Entry Data</span></a>
-    </li>
-    <li class="<?= $title === 'Data' ? 'active' : ''; ?> bold"><a class="waves-effect waves-cyan <?= $title === 'Data' ? 'active' : ''; ?> " href="<?= base_url('hublang/data') ?>"><i class="material-icons">grid_on</i><span class="menu-title" data-i18n="Data Tables">Data Pelanggan</span></a>
-    </li>
-
-
-    <?php if ($this->session->userdata('role_id') == 1) { ?>
-      <li class="navigation-header"><a class="navigation-header-text">Pages</a><i class="navigation-header-icon material-icons">more_horiz</i>
-      </li>
-
-      <li class="bold <?= $title === 'Cabang' || $title === 'Wilayah' || $title === 'Jalan' ? 'active' : '' ?>"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">map</i><span class="menu-title" data-i18n="Forms">Pelayanan</span></a>
-        <div class="collapsible-body">
-          <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-            <li class="<?= $title === 'Cabang' ? 'active' : '' ?>">
-              <a href="<?= base_url('cabang'); ?>" class="<?= $title === 'Cabang' ? 'active' : '' ?>">
-                <i class="material-icons">radio_button_unchecked</i><span data-i18n="Form Elements">Cabang</span>
-              </a>
-            </li>
-            <li>
-              <a href="<?= base_url('wilayah'); ?>" class="<?= $title === 'Wilayah' ? 'active' : '' ?>">
-                <i class="material-icons">radio_button_unchecked</i><span data-i18n="Form Elements">Wilayah</span>
-              </a>
-            </li>
-            <li>
-              <a href="<?= base_url('jalan'); ?>" class="<?= $title === 'Jalan' ? 'active' : '' ?>">
-                <i class="material-icons">radio_button_unchecked</i><span data-i18n="Form Elements">Jalan</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </li>
-
-      <li class="bold <?= $title === 'User' ? 'active' : '' ?>"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">chrome_reader_mode</i><span class="menu-title" data-i18n="Forms">Akun</span></a>
-        <div class="collapsible-body">
-          <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-            <li class="<?= $title === 'User' ? 'active' : '' ?>">
-              <a href="<?= base_url('user'); ?>" class="<?= $title === 'User' ? 'active' : '' ?>">
-                <i class="material-icons">radio_button_unchecked</i><span data-i18n="Form Elements">Data Pengguna</span>
-              </a>
-            </li>
-            <li>
-              <a href="">
-                <i class="material-icons">radio_button_unchecked</i><span data-i18n="Form Elements">Aktivasi Akun</span>
-              </a>
-            </li>
-          </ul>
-        </div>
+      <li class="navigation-header"><a class="navigation-header-text"><?= $m['menu']; ?></a><i class="navigation-header-icon material-icons">more_horiz</i>
       </li>
 
 
-    <?php } ?>
+      <!-- SIAPKAN SUB-MENU SESUAI MENU -->
+      <?php
+      $menuId = $m['id_menu'];
+      $querySubMenu = "SELECT *
+                         FROM `user_sub_menu` JOIN `user_menu` 
+                           ON `user_sub_menu`.`menu_id` = `user_menu`.`id_menu`
+                        WHERE `user_sub_menu`.`menu_id` = $menuId
+                          AND `user_sub_menu`.`is_active` = 1
+                  ";
+      $subMenu = $this->db->query($querySubMenu)->result_array();
+      // echo json_encode($subMenu);
+      ?>
+
+      <?php $hal = $this->uri->segment(1);
+      $halup = strtolower($hal);
+      // echo json_encode($halup);
+      ?>
+
+      <?php foreach ($subMenu as $sm) : ?>
+
+        <li class="<?= $title == ($sm['title']) ? 'active' : ''; ?> bold">
+          <a class="waves-effect waves-cyan  <?= $title === ($sm['title']) ? 'active' : ''; ?>" href="<?= base_url($sm['url']) ?>">
+            <i class="material-icons"><?= $sm['icon'] ?></i><span class="menu-title"><?= $sm['title'] ?></span>
+          </a>
+        </li>
+      <?php endforeach;
+      $i++; ?>
+    <?php endforeach; ?>
 
 
 
@@ -95,6 +72,7 @@
 
     <!-- <li class="bold"><a class="waves-effect waves-cyan " href="https://pixinvent.ticksy.com/" target="_blank"><i class="material-icons">logout</i><span class="menu-title" data-i18n="Support">Logout</span></a>
         </li> -->
+    <br><br><br><br>
 
   </ul>
   <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>

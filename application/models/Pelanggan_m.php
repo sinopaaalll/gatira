@@ -28,13 +28,15 @@ class Pelanggan_m extends CI_Model
 
     public function get_data_by_id($id)
     {
-        $this->db->select('pelanggan. *, jenis.nama_jenis as jenis , provinces.name_provinces as provinsi , regencies.name_regencies as kabupaten , districts.name_districts as kecamatan, villages.name_villages as kelurahan, ket_spl.nama_status as ket');
+        $this->db->select('pelanggan. *, jenis.nama_jenis as jenis , provinces.name_provinces as provinsi , regencies.name_regencies as kabupaten , districts_pelanggan.name_districts as kec_pel, villages_pelanggan.name_villages as kel_pel, districts_pasang.name_districts as kec_pasang, villages_pasang.name_villages as kel_pasang, ket_spl.nama_status as ket');
         $this->db->from('pelanggan');
         $this->db->where('pelanggan.id', $id);
         $this->db->join('provinces', 'id_provinces=prov_pelanggan');
         $this->db->join('regencies', 'id_regencies=kota_pelanggan');
-        $this->db->join('districts', 'id_districts=kec_pelanggan');
-        $this->db->join('villages', 'id_villages=kel_pelanggan');
+        $this->db->join('districts as districts_pelanggan', 'districts_pelanggan.id_districts = pelanggan.kec_pelanggan');
+        $this->db->join('districts as districts_pasang', 'districts_pasang.id_districts = pelanggan.kec_pasang');
+        $this->db->join('villages as villages_pelanggan', 'villages_pelanggan.id_villages = pelanggan.kel_pelanggan');
+        $this->db->join('villages as villages_pasang', 'villages_pasang.id_villages = pelanggan.kel_pasang');
         $this->db->join('ket_spl', 'ket_spl.id = pelanggan.ket_spl');
         $this->db->join('jenis', 'jenis.id = pelanggan.jenis_id');
 

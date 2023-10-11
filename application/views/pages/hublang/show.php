@@ -66,12 +66,12 @@
                                                     <tr>
                                                         <th>Kelurahan / Desa</th>
                                                         <td>:</td>
-                                                        <td><?= $pel['kelurahan']; ?></td>
+                                                        <td><?= $pel['kel_pel']; ?></td>
                                                     </tr>
                                                     <tr>
                                                         <th>Kecamatan</th>
                                                         <td>:</td>
-                                                        <td><?= $pel['kecamatan']; ?></td>
+                                                        <td><?= $pel['kec_pel']; ?></td>
                                                     </tr>
                                                     <tr>
                                                         <th>Kabupaten / Kota</th>
@@ -119,7 +119,17 @@
                                                     <tr>
                                                         <th>Status</th>
                                                         <td>:</td>
-                                                        <td><?= $pel['ket']; ?></td>
+                                                        <td>
+                                                            <?php if ($pel['status'] == 1) {
+                                                                echo "Aktif";
+                                                            } elseif ($pel['status'] == 2) {
+                                                                echo "Segel";
+                                                            } elseif ($pel['status'] == 3) {
+                                                                echo "Bongkar";
+                                                            } else {
+                                                                echo "Tidak Aktif";
+                                                            } ?>
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <th class="blue darken-3 center-align" colspan="3">
@@ -135,17 +145,7 @@
                                                     <tr>
                                                         <th>Keterangan SPL</th>
                                                         <td>:</td>
-                                                        <td>
-                                                            <?php if ($pel['status'] == 1) {
-                                                                echo "Aktif";
-                                                            } elseif ($pel['status'] == 2) {
-                                                                echo "Segel";
-                                                            } elseif ($pel['status'] == 3) {
-                                                                echo "Bongkar";
-                                                            } else {
-                                                                echo "Tidak Aktif";
-                                                            } ?>
-                                                        </td>
+                                                        <td><?= $pel['ket'] ?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="blue darken-3 center-align" colspan="3">
@@ -158,9 +158,19 @@
                                                         <td><?= $pel['no_meter']; ?></td>
                                                     </tr>
                                                     <tr>
+                                                        <th>Tanggal Bayar</th>
+                                                        <td>:</td>
+                                                        <td><?= $pel['tgl_bayar']; ?></td>
+                                                    </tr>
+                                                    <tr>
                                                         <th>Biaya Pasang</th>
                                                         <td>:</td>
                                                         <td>Rp. <?= number_format($pel['biaya_pasang'], 0, ',', '.'); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Tanggal Pasang</th>
+                                                        <td>:</td>
+                                                        <td><?= $pel['tgl_pasang']; ?></td>
                                                     </tr>
                                                     <tr>
                                                         <th>Alamat Pasang</th>
@@ -170,12 +180,12 @@
                                                     <tr>
                                                         <th>Kelurahan / Desa</th>
                                                         <td>:</td>
-                                                        <td><?= $pel2['kelurahan']; ?></td>
+                                                        <td><?= $pel['kel_pasang']; ?></td>
                                                     </tr>
                                                     <tr>
                                                         <th>Kecamatan</th>
                                                         <td>:</td>
-                                                        <td><?= $pel2['kecamatan']; ?></td>
+                                                        <td><?= $pel['kec_pasang']; ?></td>
                                                     </tr>
                                                     <tr>
                                                         <th>Lokasi</th>

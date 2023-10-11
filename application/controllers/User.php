@@ -9,17 +9,13 @@ class User extends CI_Controller
         parent::__construct();
 
         // is login
-        if (!$this->session->userdata('nik')) {
-            redirect('auth/login');
-        } else if ($this->session->userdata('role_id') != 1) {
-            redirect('404_override');
-        }
+        is_logged_in("User Management");
     }
 
     public function index()
     {
 
-        $data['title'] = "User";
+        $data['title'] = "User Management";
         $data['user'] = $this->User_m->get_all()->result();
 
         $this->load->view('component/header', $data);
@@ -58,7 +54,7 @@ class User extends CI_Controller
         $this->form_validation->set_rules('role', 'Role', 'required');
 
         if ($this->form_validation->run() == false) {
-            $data['title'] = "User";
+            $data['title'] = "User Management";
             $data['role'] = $this->User_m->get_role();
 
             $this->load->view('component/header', $data);
@@ -86,7 +82,7 @@ class User extends CI_Controller
 
     public function detail($id)
     {
-        $data['title'] = "User";
+        $data['title'] = "User Management";
         $data['user'] = $this->User_m->getUserID($id)->row_array();
 
         $this->load->view('component/header', $data);
@@ -114,7 +110,7 @@ class User extends CI_Controller
         $this->form_validation->set_rules('role', 'Role', 'required');
 
         if ($this->form_validation->run() == false) {
-            $data['title'] = "User";
+            $data['title'] = "User Management";
             $data['user'] = $this->User_m->getUserID($id)->row_array();
             $data['role'] = $this->User_m->get_role();
 

@@ -8,22 +8,20 @@ class Hublang extends CI_Controller
     {
         parent::__construct();
         $this->load->library('form_validation');
-
-        // is login
-        if (!$this->session->userdata('nik')) {
-            redirect('auth/login');
-        }
     }
 
     public function index()
     {
+        // is login
+        is_logged_in("Entry Pelanggan");
+
         $this->session->unset_userdata('no_pelanggan');
         $this->form_validation->set_rules('no_pelanggan', 'Nomor Pelanggan', 'required|max_length[11]|min_length[10]');
 
         if ($this->form_validation->run() == false) {
 
             $data = [
-                'title' => "Entry",
+                'title' => "Entry Pelanggan",
             ];
 
             $this->load->view('component/header', $data);
@@ -59,126 +57,33 @@ class Hublang extends CI_Controller
 
     public function entry()
     {
-        // Periksa apakah sesi nomor pelanggan telah diatur
-        if (!$this->session->userdata('no_pelanggan')) {
-            $this->session->set_flashdata('warning', 'Silahkan cek terlebih dahulu nomor pelanggannya');
+        // is login
+        is_logged_in("Entry Pelanggan");
+        if (empty($this->session->userdata('no_pelanggan'))) {
+            $this->session->set_flashdata('warning', 'Silahkan cek terlebih dahulu sebelum updating data!');
             redirect('hublang');
-        }
+        };
 
-        $rules = array(
-            [
-                'field' => 'no_pelanggan',
-                'label' => 'Nomor pelanggan',
-                'rules' => 'required|max_length[11]|min_length[10]|is_unique[pelanggan.no_pelanggan]',
-            ],
-            [
-                'field' => 'no_plat',
-                'label' => 'Nomor plat',
-                'rules' => 'required|is_unique[pelanggan.no_plat]',
-            ],
-            [
-                'field' => 'nama_pelanggan',
-                'label' => 'Nama pelanggan',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'email_pelanggan',
-                'label' => 'Email pelanggan',
-                'rules' => 'valid_email',
-            ],
-            [
-                'field' => 'telp_pelanggan',
-                'label' => 'Nomor hp pelanggan',
-                'rules' => '',
-            ],
-            [
-                'field' => 'alamat_pelanggan',
-                'label' => 'Alamat pelanggan',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'prov_pelanggan',
-                'label' => 'Provinsi',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'kota_pelanggan',
-                'label' => 'Kabupaten / Kota',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'kec_pelanggan',
-                'label' => 'Kecamatan',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'kel_pelanggan',
-                'label' => 'Kelurahan / Desa',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'tgl_pasang',
-                'label' => 'Tanggal pasang',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'no_meter',
-                'label' => 'Nomor meter',
-                'rules' => 'required|is_unique[pelanggan.no_meter]',
-            ],
-            [
-                'field' => 'no_spl',
-                'label' => 'Nomor spl',
-                'rules' => 'required|is_unique[pelanggan.no_spl]',
-            ],
-            [
-                'field' => 'jenis_langganan',
-                'label' => 'Jenis Langganan',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'ket_spl',
-                'label' => 'Keterangan SPL',
-                'rules' => 'required',
-            ],
-            [
-                'field' => 'status',
-                'label' => 'Status',
-                'rules' => '',
-            ],
-            [
-                'field' => 'no_rek',
-                'label' => 'Nomor rekening',
-                'rules' => 'numeric',
-            ],
-        );
+        $kecamatan = $this->db->query("SELECT * FROM districts WHERE regency_id='3214'")->result_array();
 
-        $this->form_validation->set_rules($rules);
+        $data = [
+            'title' => "Entry Pelanggan",
+            'provinces' => $this->Kota_m->get_provinces()->result(),
+            'districts1' => $this->Kota_m->get_districts1()->result(),
+            'jenis' => $this->Pelanggan_m->get_jenis()->result(),
+            'districts2' => $kecamatan,
+            'pelayanan' => $this->Pelanggan_m->get_pelayanan()->result(),
+            'jenis' => $this->Pelanggan_m->get_jenis()->result(),
+            'ket_spl' => $this->Pelanggan_m->get_ket_spl()->result(),
+        ];
 
-        if ($this->form_validation->run() == false) {
-
-            $kecamatan = $this->db->query("SELECT * FROM districts WHERE regency_id='3214'")->result_array();
-
-            $data = [
-                'title' => "Entry",
-                'provinces' => $this->Kota_m->get_provinces()->result(),
-                'districts1' => $this->Kota_m->get_districts1()->result(),
-                'districts2' => $kecamatan,
-                'pelayanan' => $this->Pelanggan_m->get_pelayanan()->result(),
-                'jenis' => $this->Pelanggan_m->get_jenis()->result(),
-                'ket_spl' => $this->Pelanggan_m->get_ket_spl()->result(),
-            ];
-
-            $this->load->view('component/header', $data);
-            $this->load->view('component/sidebar', $data);
-            $this->load->view('pages/hublang/entry', $data);
-            $this->load->view('component/footer');
-        } else {
-            $this->_simpan_data();
-        }
+        $this->load->view('component/header', $data);
+        $this->load->view('component/sidebar');
+        $this->load->view('pages/hublang/entry', $data);
+        $this->load->view('component/footer');
     }
 
-    private function _simpan_data()
+    public function proses()
     {
 
         $input_alamat_pasang = htmlspecialchars($this->input->post('alamat_pasang', true));
@@ -217,6 +122,7 @@ class Hublang extends CI_Controller
             'kel_pelanggan' => htmlspecialchars($this->input->post('kel_pelanggan', true)),
             'tgl_pasang' => $this->input->post('tgl_pasang', true),
             'no_meter' => htmlspecialchars($this->input->post('no_meter', true)),
+            'tgl_bayar' => $this->input->post('tgl_bayar', true),
             'biaya_pasang' => htmlspecialchars($this->input->post('biaya_pasang', true)),
             'alamat_pasang' => $alamat_pasang,
             'kec_pasang' => $kec_pasang,
@@ -228,12 +134,11 @@ class Hublang extends CI_Controller
             'status' => htmlspecialchars($this->input->post('status', true)),
             'luas_tanah' => htmlspecialchars($this->input->post('luas_tanah', true)),
             'daya_listrik' => htmlspecialchars($this->input->post('daya_listrik', true)),
-            'no_rek' => htmlspecialchars($this->input->post('no_rek', true)),
+            'created_by' => $this->session->userdata('nama'),
             'created_at' => date("Y-m-d"),
             'created_at_int' => time(),
             // 'created_by' => htmlspecialchars($this->input->post('created_by', true))
         ];
-
 
         if ($this->db->insert('pelanggan', $data)) {
             $this->session->set_flashdata('success', 'Data berhasil di entry.');
@@ -243,7 +148,11 @@ class Hublang extends CI_Controller
 
     public function data()
     {
-        $data['title'] = "Data";
+
+        // is login
+        is_logged_in("Data Pelanggan");
+
+        $data['title'] = "Data Pelanggan";
         $data['wilayah'] = $this->Pelanggan_m->get_wilayah()->result();
 
 
@@ -270,9 +179,11 @@ class Hublang extends CI_Controller
 
     public function detail($id)
     {
-        $data['title'] = "Detail Data Pelanggan";
+        // is login
+        is_logged_in("Data Pelanggan");
+
+        $data['title'] = "Data Pelanggan";
         $data['pel'] = $this->Pelanggan_m->get_data_by_id($id);
-        $data['pel2'] = $this->Pelanggan_m->get_data2_by_id($id);
 
         $where = [
             'kode_pelayanan' => $data['pel']['kode_pelayanan'],
@@ -340,54 +251,5 @@ class Hublang extends CI_Controller
         $id = $this->input->post('id', TRUE);
         $data = $this->Pelanggan_m->get_jalan($id)->result();
         echo json_encode($data);
-    }
-
-
-    public function multiform()
-    {
-        $rules = array(
-            [
-                'field' => 'no_pelanggan',
-                'label' => 'Nomor pelanggan',
-                'rules' => 'required|max_length[11]|min_length[10]|is_unique[pelanggan.no_pelanggan]',
-            ],
-            [
-                'field' => 'no_plat',
-                'label' => 'Nomor plat',
-                'rules' => 'required|is_unique[pelanggan.no_plat]',
-            ],
-            [
-                'field' => 'nama_pelanggan',
-                'label' => 'Nama pelanggan',
-                'rules' => 'required',
-            ],
-        );
-
-        $this->form_validation->set_rules($rules);
-
-        if ($this->form_validation->run() == false) {
-
-            $data = [
-                'title' => "Entry",
-                'provinces' => $this->Kota_m->get_provinces()->result(),
-                'districts1' => $this->Kota_m->get_districts1()->result(),
-            ];
-
-            $this->load->view('component/header', $data);
-            $this->load->view('component/sidebar');
-            $this->load->view('pages/hublang/multiform', $data);
-            $this->load->view('component/footer');
-        } else {
-            $no_pelanggan = $this->input->post('no_pelanggan');
-            $no_plat = $this->input->post('no_plat');
-
-            $data =  [
-                'no_pelanggan' => $no_pelanggan,
-                'no_plat' => $no_plat
-            ];
-
-            var_dump($data);
-            die();
-        }
     }
 }

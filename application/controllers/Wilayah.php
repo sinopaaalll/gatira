@@ -9,16 +9,12 @@ class Wilayah extends CI_Controller
         parent::__construct();
 
         // is login
-        if (!$this->session->userdata('nik')) {
-            redirect('auth/login');
-        } else if ($this->session->userdata('role_id') != 1) {
-            redirect('404_override');
-        }
+        is_logged_in("Wilayah Management");
     }
 
     public function index()
     {
-        $data['title'] = "Wilayah";
+        $data['title'] = "Wilayah Management";
 
         $this->db->select('wilayah.*, pelayanan.nama_pelayanan as cabang');
         $this->db->from('wilayah');
@@ -41,7 +37,7 @@ class Wilayah extends CI_Controller
         ]);
         $this->form_validation->set_rules('nama', 'Nama Wilayah', 'required');
         if ($this->form_validation->run() == false) {
-            $data['title'] = "Wilayah";
+            $data['title'] = "Wilayah Management";
             $data['cabang'] = $this->db->get('pelayanan')->result();
 
             $this->load->view('component/header', $data);
@@ -88,7 +84,7 @@ class Wilayah extends CI_Controller
 
     public function edit($kode)
     {
-        $data['title'] = "Wilayah";
+        $data['title'] = "Wilayah Management";
         $data['cabang'] = $this->db->get('pelayanan')->result();
         $data['wilayah'] = $this->db->get_where('wilayah', ['kode_wilayah' => $kode])->row_array();
 

@@ -15,7 +15,7 @@
 
                                         <div class="row">
                                             <div class="col s12">
-                                                <table id="page-length-option" class="display">
+                                                <table id="page-length-option" class="striped">
                                                     <thead>
                                                         <tr>
                                                             <th>Kode</th>
