@@ -135,8 +135,7 @@ class Hublang extends CI_Controller
             'luas_tanah' => htmlspecialchars($this->input->post('luas_tanah', true)),
             'daya_listrik' => htmlspecialchars($this->input->post('daya_listrik', true)),
             'created_by' => $this->session->userdata('nama'),
-            'created_at' => date("Y-m-d"),
-            'created_at_int' => time(),
+            'created_at' => date(),
             // 'created_by' => htmlspecialchars($this->input->post('created_by', true))
         ];
 
