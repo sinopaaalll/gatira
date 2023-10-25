@@ -14,10 +14,11 @@ class Dashboard extends CI_Controller
 
 	public function index()
 	{
-
 		$todayDate = date('Y-m-d');
 		$sevenDaysAgo = date('Y-m-d', strtotime('-7 days'));
 		$oneMonth = date('Y-m-d', strtotime('-30 days'));
+
+		// $today = $this->db->query("SELECT COUNT(id) AS jumlah FROM pelanggan WHERE created_at = " . $todayDate);
 
 		// Query untuk mengambil jumlah id pada tanggal hari ini
 		$this->db->select('COUNT(id) as jumlah');
@@ -38,19 +39,19 @@ class Dashboard extends CI_Controller
 		$month = $this->db->get()->row();
 
 		// Query untuk mengambil jumlah id berdasarkan wilayah
-		$this->db->select('COUNT(pel.id) as jumlah, wilayah.nama_wilayah as wilayah');
-		$this->db->from('pelanggan as pel');
-		$this->db->where('pel.kode_pelayanan', '01');
-		$this->db->join('wilayah', 'wilayah.kode_wilayah = pel.kode_wilayah');
-		$this->db->group_by('pel.kode_wilayah');
-		$wilayah = $this->db->get()->result();
+		$this->db->select('COUNT(pelanggan.id) as jumlah, wilayah.nama_wilayah as wilayah');
+		$this->db->from('pelanggan');
+		$this->db->where('pelanggan.kode_pelayanan', '01');
+		$this->db->join('wilayah', 'wilayah.kode_wilayah = pelanggan.kode_wilayah');
+		$this->db->group_by('pelanggan.kode_wilayah');
+		$wilayah = $this->db->get()->result_array();
 
 		// Query untuk mengambil jumlah id berdasarkan jenis
-		$this->db->select('COUNT(pel.id) as jumlah, jenis.nama_jenis as jenis');
-		$this->db->from('pelanggan as pel');
-		$this->db->join('jenis', 'jenis.id = pel.jenis_id');
-		$this->db->group_by('pel.jenis_id');
-		$jenis = $this->db->get()->result();
+		$this->db->select('COUNT(pelanggan.id) as jumlah, jenis.nama_jenis as jenis');
+		$this->db->from('pelanggan');
+		$this->db->join('jenis', 'jenis.id = pelanggan.jenis_id');
+		$this->db->group_by('pelanggan.jenis_id');
+		$jenis = $this->db->get()->result_array();
 
 		// Query untuk mengambil jumlah id berdasarkan kel
 		$this->db->select('COUNT(pel.id) as jumlah, villages.name_villages as kel');
@@ -58,14 +59,14 @@ class Dashboard extends CI_Controller
 		$this->db->where('pel.kode_pelayanan', '01');
 		$this->db->join('villages', 'villages.id_villages = pel.kel_pelanggan');
 		$this->db->group_by('pel.kel_pelanggan');
-		$kel = $this->db->get()->result();
+		$kel = $this->db->get()->result_array();
 
 		// Query untuk mengambil jumlah id berdasarkan Cabang
 		$this->db->select('COUNT(pel.id) as jumlah, pelayanan.nama_pelayanan as cabang');
 		$this->db->from('pelanggan as pel');
 		$this->db->join('pelayanan', 'pelayanan.kode_pelayanan = pel.kode_pelayanan');
 		$this->db->group_by('pel.kode_pelayanan');
-		$cbg = $this->db->get()->result();
+		$cbg = $this->db->get()->result_array();
 
 		$cabang = $this->db->get('pelayanan')->result();
 
@@ -97,7 +98,7 @@ class Dashboard extends CI_Controller
 		$this->db->where('pel.kode_pelayanan', $id);
 		$this->db->join('wilayah', 'wilayah.kode_wilayah = pel.kode_wilayah');
 		$this->db->group_by('pel.kode_wilayah');
-		$wilayah = $this->db->get()->result();
+		$wilayah = $this->db->get()->result_array();
 
 		// Siapkan data untuk dikirimkan sebagai respons AJAX
 		$response_data = [

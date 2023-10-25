@@ -10,23 +10,28 @@ class Pelanggan extends CI_Controller
 
     public function index()
     {
-        $this->session->unset_userdata('no_pel');
-        $this->form_validation->set_rules('no_pel', 'Nomor Pelanggan', 'trim|required|valid_number');
+        $this->session->unset_userdata('no_pelanggan');
+        $this->form_validation->set_rules('no_pelanggan', 'Nomor Pelanggan', 'trim|required');
 
         if ($this->form_validation->run() == false) {
-            $data['title'] = 'PDAM Purwakarta';
+
+
+            $data = [
+                'title' => 'PDAM Purwakarta',
+            ];
+
             $this->load->view('component/auth_header', $data);
             $this->load->view('pages/pelanggan/index');
             $this->load->view('component/auth_footer');
         } else {
-            // validasinya success
             $this->_cek();
         }
     }
 
-    public function cek()
+    public function _cek()
     {
-        $no_pel = $this->input->post('no_pelanggan');
+
+        $no_pel = htmlspecialchars($this->input->post('no_pelanggan'));
         $query = $this->db->get_where('pelanggan', ['no_pelanggan' => $no_pel]);
         $row = $query->row_array();
         if ($row) {
@@ -36,9 +41,9 @@ class Pelanggan extends CI_Controller
         } else {
             $data = [
                 'no_pel' => $no_pel,
-                'pelayanan' => $this->input->post('pelayanan', true),
-                'wilayah' => $this->input->post('wilayah', true),
-                'jalan' => $this->input->post('jalan', true),
+                'pelayanan' => htmlspecialchars($this->input->post('pelayanan', true)),
+                'wilayah' => htmlspecialchars($this->input->post('wilayah', true)),
+                'jalan' => htmlspecialchars($this->input->post('jalan', true)),
             ];
             $this->session->set_userdata($data);
             redirect('pelanggan/formulir');

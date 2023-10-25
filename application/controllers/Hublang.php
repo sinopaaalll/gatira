@@ -135,12 +135,15 @@ class Hublang extends CI_Controller
             'luas_tanah' => htmlspecialchars($this->input->post('luas_tanah', true)),
             'daya_listrik' => htmlspecialchars($this->input->post('daya_listrik', true)),
             'created_by' => $this->session->userdata('nama'),
-            'created_at' => date(),
+            'created_at' => date('Y-m-d'),
             // 'created_by' => htmlspecialchars($this->input->post('created_by', true))
         ];
 
         if ($this->db->insert('pelanggan', $data)) {
             $this->session->set_flashdata('success', 'Data berhasil di entry.');
+            redirect('hublang');
+        } else {
+            $this->session->set_flashdata('error', 'Data gagal di entry.');
             redirect('hublang');
         };
     }
@@ -164,11 +167,6 @@ class Hublang extends CI_Controller
         } else {
             $data['pelanggan'] = $this->Pelanggan_m->get_data_by_wilayah($wilayah);
         }
-
-        // $data['pelanggan'] = $pel;
-        // var_dump($data['pelanggan']);
-        // die();
-
 
         $this->load->view('component/header', $data);
         $this->load->view('component/sidebar');
@@ -196,6 +194,17 @@ class Hublang extends CI_Controller
         $this->load->view('component/sidebar');
         $this->load->view('pages/hublang/show', $data);
         $this->load->view('component/footer');
+    }
+
+    public function destroy($id)
+    {
+        if ($this->db->delete('pelanggan', ['id' => $id])) {
+            $this->session->set_flashdata('success', 'Data berhasil di hapus.');
+            redirect('hublang/data');
+        } else {
+            $this->session->set_flashdata('error', 'Data gagal di hapus.');
+            redirect('hublang/data');
+        };
     }
 
     public function get_regencies()

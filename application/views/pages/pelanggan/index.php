@@ -11,7 +11,7 @@
                                 <h5 class="blue-text text-darken-4"><b>PDAM Purwakarta</b></h5>
                                 <br><br>
                             </span>
-                            <form method="post" action="<?= base_url('pelanggan/cek'); ?>">
+                            <form method="post" action="<?= base_url('pelanggan'); ?>">
                                 <div class="input-field">
                                     <i class="material-icons prefix">assignment_ind</i>
                                     <input id="no_pelanggan" placeholder="Contoh: 0101001015" type="text" maxlength="11" name="no_pelanggan" class="<?= form_error('no_pelanggan')  ? 'validate invalid' : ''; ?>" value="<?= set_value('no_pelanggan') ?>" autofocus>
@@ -24,8 +24,11 @@
                                 <input type="hidden" id="no_urut" name="no_urut" value="">
 
                                 <br>
-                                <!-- <div class="g-recaptcha" data-sitekey="6Lf-cFAoAAAAAFo3px07bd3sNS_UeLTyD_blTx8T" data-theme="light" data-type="image" data-callback=""></div>
-                                <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=onload&hl=en" async defer></script> -->
+                                <div class="row">
+                                    <div class="col s12 offset-s1 m12 offset-m2 ">
+                                        <?= $cap; ?>
+                                    </div>
+                                </div>
 
 
                                 <br>

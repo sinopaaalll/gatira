@@ -198,8 +198,10 @@
         });
 
         $(document).ready(function() {
+
             var labels_data = <?= json_encode(array_column($data_jenis, 'jenis')) ?>;
             var datasets_data = <?= json_encode(array_column($data_jenis, 'jumlah')) ?>;
+
             // Data contoh untuk pie Chart
             var data = {
                 labels: labels_data,
@@ -229,6 +231,7 @@
                     data: datasets_data
                 }]
             };
+
 
             // Konfigurasi Chart
             var options = {
@@ -357,18 +360,18 @@
 
     <?php
     if ($this->session->flashdata('success')) { ?>
-        < script>
+        <script>
             var successMessage = <?php echo json_encode($this->session->flashdata('success')); ?>;
             $(document).ready(function() {
-            swal("Good Job!", successMessage, "success");
+                swal("Good Job!", successMessage, "success");
             });
-            </script>
-        <?php } else if ($this->session->flashdata('warning')) { ?>
-            <script>
-                var warningMessage = <?php echo json_encode($this->session->flashdata('warning')); ?>;
-                $(document).ready(function() {
+        </script>
+    <?php } else if ($this->session->flashdata('warning')) { ?>
+        <script>
+            var warningMessage = <?php echo json_encode($this->session->flashdata('warning')); ?>;
+            $(document).ready(function() {
 
-                    swal("Oops!", warningMessage, "warning");
-                });
-            </script>
-        <?php } ?>
+                swal("Oops!", warningMessage, "warning");
+            });
+        </script>
+    <?php } ?>

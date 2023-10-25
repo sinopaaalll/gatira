@@ -71,7 +71,7 @@ class User extends CI_Controller
                 'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
                 'role_id' => $this->input->post('role', true),
                 'is_active' => 0,
-                'date_created' => time()
+                'created_at' => time()
             ];
 
             $this->db->insert('user', $data);

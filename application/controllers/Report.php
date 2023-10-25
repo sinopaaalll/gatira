@@ -48,21 +48,22 @@ class Report extends CI_Controller
         $this->db->join('villages as villages_pelanggan', 'villages_pelanggan.id_villages = pelanggan.kel_pelanggan');
         $this->db->join('jenis', 'jenis.id = pelanggan.jenis_id');
 
-        $this->db->group_start();
-        if (!empty($kd_cbg)) {
-            $this->db->where('pelanggan.kode_pelayanan', $kd_cbg);
+        if (!empty($kd_cbg) && !empty($kd_wly) && !empty($kd_jln) && !empty($jenis)) {
+            $this->db->group_start();
+            if (!empty($kd_cbg)) {
+                $this->db->where('pelanggan.kode_pelayanan', $kd_cbg);
+            }
+            if (!empty($kd_wly)) {
+                $this->db->where('pelanggan.kode_wilayah', $kd_wly);
+            }
+            if (!empty($kd_jln)) {
+                $this->db->where('pelanggan.kode_jalan', $kd_jln);
+            }
+            if (!empty($jenis)) {
+                $this->db->where('pelanggan.jenis_id', $jenis);
+            }
+            $this->db->group_end();
         }
-        if (!empty($kd_wly)) {
-            $this->db->where('pelanggan.kode_wilayah', $kd_wly);
-        }
-        if (!empty($kd_jln)) {
-            $this->db->where('pelanggan.kode_jalan', $kd_jln);
-        }
-        if (!empty($jenis)) {
-            $this->db->where('pelanggan.jenis_id', $jenis);
-        }
-        $this->db->group_end();
-
 
         $pelanggan = $this->db->get()->result();
 
