@@ -5,16 +5,17 @@
                 <div class="col s12 offset-m1 m10 l6 offset-l3">
                     <br><br>
                     <div class="card z-depth-3 white">
+
                         <div class="card-content black-text">
                             <span>
                                 <h5 class="blue-text text-darken-4"><b>Pembaruan Data Pelanggan</b></h5>
                                 <h5 class="blue-text text-darken-4"><b>PDAM Purwakarta</b></h5>
                                 <br><br>
                             </span>
-                            <form method="post" action="<?= base_url('pelanggan'); ?>">
+                            <form method="post" action="<?= base_url('pelanggan'); ?>" autocomplete="off">
                                 <div class="input-field">
                                     <i class="material-icons prefix">assignment_ind</i>
-                                    <input id="no_pelanggan" placeholder="Contoh: 0101001015" type="text" maxlength="11" name="no_pelanggan" class="<?= form_error('no_pelanggan')  ? 'validate invalid' : ''; ?>" value="<?= set_value('no_pelanggan') ?>" autofocus>
+                                    <input id="no_pelanggan" placeholder="Contoh: 0101001015" type="number" name="no_pelanggan" class="<?= form_error('no_pelanggan')  ? 'invalid' : ''; ?>" value="<?= set_value('no_pelanggan') ?>" autofocus>
                                     <label for="no_pelanggan">Cek Nomor Pelanggan</label>
                                     <?= form_error('no_pelanggan', '<span class="helper-text red-text">', '</span>'); ?>
                                 </div>
@@ -26,13 +27,14 @@
                                 <br>
                                 <div class="row">
                                     <div class="col s12 offset-s1 m12 offset-m2 ">
-                                        <?= $cap; ?>
+                                        <div class="g-recaptcha" data-sitekey="6Lf-cFAoAAAAAFo3px07bd3sNS_UeLTyD_blTx8T" data-theme="light" data-type="image" data-callback="enableButton"></div>
+                                        <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=onload&hl=en" async defer></script>
                                     </div>
                                 </div>
 
 
                                 <br>
-                                <button class="btn-large waves-effect waves-light blue darken-4 white-text right" type="submit" name="submit"><i class="material-icons right">arrow_forward</i>
+                                <button id="submitButton" class="btn-large disabled waves-effect waves-light blue darken-4 white-text right" type="submit" name="submit"><i class="material-icons right">arrow_forward</i>
                                     Lanjut
                                 </button>
 
@@ -40,6 +42,7 @@
                             <br><br>
 
                         </div>
+
                     </div>
                 </div>
 
@@ -49,10 +52,10 @@
 </section>
 
 <section>
-    <div class="section">
+    <div class=" section">
         <div class="row">
             <div class="col s12 center">
-                <a href="<?= base_url('auth/login') ?>" class="btn-large waves-effect waves-light blue darken-4"><i class="material-icons right">login</i> Login</a>
+                <a href="<?= base_url('auth/login') ?>" class="btn-large waves-effect waves-light blue darken-4"><i class="material-icons right">login</i> Login petugas</a>
             </div>
         </div>
     </div>
@@ -96,6 +99,20 @@
         });
 
     });
+
+    function enableButton() {
+        $('#submitButton').removeClass('disabled');
+    }
+
+    function recaptchaCallback() {
+        grecaptcha.ready(function() {
+            $('.g-recaptcha').each(function() {
+                grecaptcha.execute('your_site_key', { action: 'homepage' }).then(function(token) {
+                    // Do something with the token
+                });
+            });
+        });
+    }
 </script>
 
 <?php

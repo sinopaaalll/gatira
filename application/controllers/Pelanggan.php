@@ -11,7 +11,10 @@ class Pelanggan extends CI_Controller
     public function index()
     {
         $this->session->unset_userdata('no_pelanggan');
-        $this->form_validation->set_rules('no_pelanggan', 'Nomor Pelanggan', 'trim|required');
+        $this->form_validation->set_rules('no_pelanggan', 'Nomor Pelanggan', 'trim|required|max_length[11]|min_length[10]', [
+            'min_length' => 'No pelanggan tidak valid. min (10 karakter)',
+            'max_length' => 'No pelanggan tidak valid. max (11 karakter)',
+        ]);
 
         if ($this->form_validation->run() == false) {
 
@@ -30,29 +33,44 @@ class Pelanggan extends CI_Controller
 
     public function _cek()
     {
+        // input recaptcha
+        $recaptcha = $this->input->post('g-recaptcha-response');
 
-        $no_pel = htmlspecialchars($this->input->post('no_pelanggan'));
-        $query = $this->db->get_where('pelanggan', ['no_pelanggan' => $no_pel]);
-        $row = $query->row_array();
-        if ($row) {
-            // $data['pel'] = $row;
-            $this->session->set_flashdata('warning', 'Nomor Pelanggan sudah diperbarui');
-            redirect('pelanggan');
+        // cek recaptcha
+        if (!empty($recaptcha)) {
+            $response = $this->recaptcha->verifyResponse($recaptcha);
+
+            // jika sukses
+            if (isset($response['success']) and $response['success'] === true) {
+
+                // proses jika sukses
+                $no_pel = htmlspecialchars($this->input->post('no_pelanggan'));
+                $query = $this->db->get_where('pelanggan', ['no_pelanggan' => $no_pel]);
+                $row = $query->row_array();
+                if ($row) {
+                    // $data['pel'] = $row;
+                    $this->session->set_flashdata('warning', 'Nomor Pelanggan sudah diperbarui');
+                    redirect('pelanggan');
+                } else {
+                    $data = [
+                        'no_pelanggan' => $no_pel,
+                        'pelayanan' => htmlspecialchars($this->input->post('pelayanan', true)),
+                        'wilayah' => htmlspecialchars($this->input->post('wilayah', true)),
+                        'jalan' => htmlspecialchars($this->input->post('jalan', true)),
+                    ];
+                    $this->session->set_userdata($data);
+                    redirect('pelanggan/formulir');
+                }
+            }
         } else {
-            $data = [
-                'no_pel' => $no_pel,
-                'pelayanan' => htmlspecialchars($this->input->post('pelayanan', true)),
-                'wilayah' => htmlspecialchars($this->input->post('wilayah', true)),
-                'jalan' => htmlspecialchars($this->input->post('jalan', true)),
-            ];
-            $this->session->set_userdata($data);
-            redirect('pelanggan/formulir');
+            $this->session->set_flashdata('warning', 'reCaptcha required');
+            redirect('pelanggan');
         }
     }
 
     public function formulir()
     {
-        if (empty($this->session->userdata('no_pel'))) {
+        if (empty($this->session->userdata('no_pelanggan'))) {
             $this->session->set_flashdata('warning', 'Silahkan cek terlebih dahulu sebelum updating data!');
             redirect('pelanggan');
         };
@@ -60,12 +78,18 @@ class Pelanggan extends CI_Controller
         $kecamatan = $this->db->query("SELECT * FROM districts WHERE regency_id='3214'")->result_array();
         $data['districts2'] = $kecamatan;
 
-        $this->form_validation->set_rules('email_pel', 'Email Pelanggan', 'required|trim|valid_email|is_unique[pelanggan.email]', [
+        $this->form_validation->set_rules('email', 'Email Pelanggan', 'required|trim|valid_email|is_unique[pelanggan.email]', [
             'is_unique' => 'Email sudah terdafpar. Silahkan masukan email lain.'
         ]);
-        $this->form_validation->set_rules('no_pelanggan', 'Nomor Pelanggan', 'required|trim|match[no_pel]', [
-            'match' => 'Nomor Pelanggan tidak sama'
+        $this->form_validation->set_rules('no_pelanggan', 'Nomor Pelanggan', 'required|matches[no_pel]', [
+            'matches' => 'Nomor Pelanggan tidak sama'
         ]);
+        $this->form_validation->set_rules('no_pel', 'no_pel', 'required');
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+        $this->form_validation->set_rules('alamat_pel', 'Alamat', 'required');
+        $this->form_validation->set_rules('kec_pel', 'Kecamatan', 'required');
+        $this->form_validation->set_rules('kel_pel', 'Kelurahan / Desa', 'required');
+        $this->form_validation->set_rules('telp', 'Nomor telepon', 'required');
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Formulir Pembaruan Data Pelanggan';
@@ -73,22 +97,30 @@ class Pelanggan extends CI_Controller
             $this->load->view('pages/pelanggan/formulir', $data);
             $this->load->view('component/auth_footer');
         } else {
+            $phoneNumber = htmlspecialchars($this->input->post('telp', true));
+            // Menghapus spasi dan tanda hubung dari string
+            $cleanedPhoneNumber = str_replace(['+', ' ', '-'], '', $phoneNumber);
+
             $data = [
-                'no_pel' => htmlspecialchars($this->input->post('no_pel', true)),
-                'nama_pel' => htmlspecialchars($this->input->post('nama_pel', true)),
-                'alamat_pel' => htmlspecialchars($this->input->post('alamat_pel', true)),
-                'kel_pel' => htmlspecialchars($this->input->post('kel_pel', true)),
-                'kec_pel' => htmlspecialchars($this->input->post('kec_pel', true)),
-                'email_pel' => htmlspecialchars($this->input->post('email_pel', true)),
-                'nohp_pel' => htmlspecialchars($this->input->post('nohp_pel', true)),
-                'latlong_pel' => htmlspecialchars($this->input->post('latlong_pel', true)),
-                'date_created_pel' => time()
+                'no_pelanggan' => htmlspecialchars($this->input->post('no_pelanggan', true)),
+                'kode_pelayanan' => htmlspecialchars($this->input->post('pelayanan', true)),
+                'kode_wilayah' => htmlspecialchars($this->input->post('wilayah', true)),
+                'kode_jalan' => htmlspecialchars($this->input->post('jalan', true)),
+                'nama' => htmlspecialchars($this->input->post('nama', true)),
+                'alamat_pelanggan' => htmlspecialchars($this->input->post('alamat_pel', true)),
+                'prov_pelanggan' => "32",
+                'kota_pelanggan' => "3214",
+                'kel_pelanggan' => htmlspecialchars($this->input->post('kel_pel', true)),
+                'kec_pelanggan' => htmlspecialchars($this->input->post('kec_pel', true)),
+                'email' => htmlspecialchars($this->input->post('email', true)),
+                'telp' => $cleanedPhoneNumber,
+                'created_by' => $this->input->ip_address()
             ];
 
-            $this->db->insert('pel', $data);
+            $this->db->insert('pelanggan', $data);
 
-            $this->session->set_flashdata('message', '<div class="card-panel green lighten-4 z-depth-0">Terima kasih sudah membarui data pelanggan Anda.</div><br>');
-            redirect('pelanggan/sukses');
+            $this->session->set_flashdata('success', 'Data berhasil di input!');
+            redirect('pelanggan');
         }
     }
 
