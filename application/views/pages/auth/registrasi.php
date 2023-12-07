@@ -59,7 +59,7 @@ License: You must have a valid license purchased only from themeforest(the above
       <div class="container">
         <div id="register-page" class="row">
           <div class="col s12 m6 l4 z-depth-4 card-panel border-radius-6 register-card bg-opacity-8">
-            <form class="login-form" action="<?= base_url('auth/registrasi') ?>" method="post">
+            <form class="login-form" action="<?= base_url('auth/registrasi') ?>" method="post" autocomplete="off">
               <div class="row">
                 <div class="input-field col s12 center">
                   <a href="<?= base_url('dashboard') ?>">
@@ -114,7 +114,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 <div class="input-field col s12">
                   <i class="material-icons prefix">tag</i>
                   <div class="select-wrapper">
-                    <select name="role" id="role">
+                    <select name="role" id="role" class="browser-default">
                       <option value="0" selected disabled>PILIH BAGIAN</option>
                       <?php foreach ($role as $data) { ?>
                         <option value="<?= $data->id ?>" <?= set_value('role') == $data->id ? "selected" : "" ?>><?= $data->nama ?></option>

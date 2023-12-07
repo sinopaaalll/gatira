@@ -138,9 +138,12 @@
                     <img src="<?= base_url(); ?>assets/images/logo/ico.png" width="100px">
                 </div>
                 <h5 class="mont">PEMBARUAN DATA PELANGGAN</h5>
-                <p>PDAM GAPURA TIRTA RAHAYU PURWAKARTA</p>
+                <p>Perumda Air Minum Gapura Tirta Rahayu Purwakarta</p>
                 <br><br>
                 <a href="<?= base_url(); ?>pelanggan" class="waves-effect waves-light btn-large z-depth-3"><i class="material-icons right">launch</i>Formulir pembaruan data pelanggan</a>
+                <br><br><br><br>
+
+                <a href="<?= base_url(); ?>auth/login" class="waves-effect waves-light btn-large z-depth-3"><i class="material-icons right">login</i>Login</a>
             </div>
 
         </div>

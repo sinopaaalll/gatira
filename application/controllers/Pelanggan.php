@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+date_default_timezone_set("Asia/Jakarta");
 
 class Pelanggan extends CI_Controller
 {
@@ -114,7 +115,8 @@ class Pelanggan extends CI_Controller
                 'kec_pelanggan' => htmlspecialchars($this->input->post('kec_pel', true)),
                 'email' => htmlspecialchars($this->input->post('email', true)),
                 'telp' => $cleanedPhoneNumber,
-                'created_by' => $this->input->ip_address()
+                'created_by' => $this->input->ip_address(),
+                'created_at' => date('Y-m-d H:i:s'),
             ];
 
             $this->db->insert('pelanggan', $data);

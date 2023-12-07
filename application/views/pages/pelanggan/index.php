@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col s12 offset-m1 m10 l6 offset-l3">
-                    <br><br>
+                    <br><br><br><br>
                     <div class="card z-depth-3 white">
 
                         <div class="card-content black-text">
@@ -51,7 +51,7 @@
     </div><!-- section -->
 </section>
 
-<section>
+<!-- <section>
     <div class=" section">
         <div class="row">
             <div class="col s12 center">
@@ -59,7 +59,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 
 <section>
@@ -107,7 +107,9 @@
     function recaptchaCallback() {
         grecaptcha.ready(function() {
             $('.g-recaptcha').each(function() {
-                grecaptcha.execute('your_site_key', { action: 'homepage' }).then(function(token) {
+                grecaptcha.execute('your_site_key', {
+                    action: 'homepage'
+                }).then(function(token) {
                     // Do something with the token
                 });
             });
